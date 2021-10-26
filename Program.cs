@@ -25,7 +25,7 @@ namespace RecordChecker
             }
             else
             {
-                Console.WriteLine("Following records do not match.");
+                Console.WriteLine("Following records only exist in Original Sheet.");
                 foreach (var item in match)
                 {
                     Console.WriteLine(item.Name+" "+item.Age+" "+item.ID);
@@ -63,7 +63,9 @@ namespace RecordChecker
         }
         #endregion
 
-         
+
+        #region MatchFiles
+
         public List<Sheet> MatchFiles(List<Sheet> original, List<Sheet> duplicate)
         {
             List<Sheet> duplicateRecords=new List<Sheet>();
@@ -107,29 +109,29 @@ namespace RecordChecker
             //var result = duplicate.Where(p => !original.Any(p2 => p2.Name == p.Name && p2.Age==p.Age));
             //bool isRecordExists;
             
+                int i = 0;
             foreach (var item in original)
             {
-                int i = 0;
                 foreach (var dup in duplicate)
                 {
-                    if(item.Age==dup.Age && item.Name == dup.Name)
-                    {
-                        //duplicateRecords.Add(dup);
-                        i++;
-                    }
+                    if(item.Age!=dup.Age && item.Name != dup.Name)                    
+                    {                       
+                        i++; 
+                    }                    
                 }
                 if (i > 0)
                 {
                     duplicateRecords.Add(item);
+                    i = 0;
                 }
-                //Console.WriteLine(  item);
+                 
             }
 
-            //var excludedIDs = new HashSet<string>(original.Select(p => p.Name));
-            //var result = duplicate.Where(p => !excludedIDs.Contains(p.Name));
+            
             return duplicateRecords;
         }
 
+        #endregion
 
     }
 }
